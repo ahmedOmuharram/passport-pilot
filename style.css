@@ -33,6 +33,7 @@ li {
   -moz-box-shadow:0 5px 5px rgba(182, 182, 182, 0.75);
   -webkit-box-shadow: 0 5px 5px rgba(182, 182, 182, 0.75);
   box-shadow: 0 5px 5px rgba(182, 182, 182, 0.75);
+  z-index: 99999;
 }
 
 .nav-links a {
@@ -72,6 +73,7 @@ input[type=checkbox] {
     display: none;
     font-size: 24px;
     user-select: none;
+    z-index: 99999;
 }
   
   /* APPLYING MEDIA QUERIES */
@@ -92,7 +94,6 @@ input[type=checkbox] {
         right: 0;
         left: 0;
         text-align: center;
-        margin-top: 10px;
     }
 
     .menu li:hover {
@@ -109,6 +110,7 @@ input[type=checkbox] {
     input[type=checkbox]:checked ~ .menu {
         background-color: #7A2048;
         display: block;
+        z-index: 99999;
     }
 
     .hamburger {
@@ -121,8 +123,9 @@ input[type=checkbox] {
 }
 
 #map { 
-  height: 100vh; 
+  height: 100%; 
 }
+
 
 .leaflet-tile {
   filter: blur(100px) hue-rotate(90deg) !important;

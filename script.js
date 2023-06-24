@@ -2,6 +2,7 @@
 var map = L.map('map', {
   minZoom: 2,
   maxZoom: 19,
+  zoomControl: false,
 }).setView([35, 0], 2).setMaxBounds([
   [90,-180],
   [-90, 180]
@@ -69,7 +70,7 @@ fetch('custom.geo.json')
     
     function onEachFeature(feature, layer) {
       layer.on('click', function (e) {
-        layer.bindPopup("<b>" + feature.properties.name + " (Continent: " + feature.properties.continent + ") </b>" + "<br><br> The GDP for this country was " + feature.properties.gdp_md.toLocaleString() + " million USD as of " + feature.properties.gdp_year + ".<br><br>"
+        layer.bindPopup("<b>" + feature.properties.name + " (Continent: " + feature.properties.continent + ") </b>" + "<br><br> The GDP for this country was " + Math.floor(feature.properties.gdp_md/1000).toLocaleString() + " million USD as of " + feature.properties.gdp_year + ".<br><br>"
         + feature.properties.name + " had a population of " + feature.properties.pop_est.toLocaleString() + " as of " + feature.properties.pop_year + ".");
       });
     }
