@@ -90,3 +90,26 @@ fetch('custom.geo.json')
     // Handle any error that occurred while reading the file
     console.error('Error:', error);
   });
+
+// Get all the anchor elements in the navbar
+
+const anchor = document.getElementById('about');
+infoSection = document.getElementById('info');
+mapSection = document.getElementById('map');
+
+anchor.addEventListener('click', function(e) {
+  e.preventDefault(); 
+  if (infoSection.classList.contains('hidden')) {
+    mapSection.classList.add('blur');
+    infoSection.style.animation = 'float 9s ease-in-out infinite';
+    infoSection.classList.remove('hidden');
+  } else {
+    map.closePopup();
+    map.flyTo([35, 0], 2);
+    mapSection.classList.remove('blur');
+    infoSection.classList.add('hidden');
+  }
+});
+
+
+
