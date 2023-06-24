@@ -69,7 +69,7 @@ fetch('custom.geo.json')
     
     function onEachFeature(feature, layer) {
       layer.on('click', function (e) {
-        layer.bindPopup("<b>" + feature.properties.name + " (Continent: " + feature.properties.continent + ") </b>" + "<br><br> The gdp for this country was " + feature.properties.gdp_md.toLocaleString() + " million USD as of " + feature.properties.gdp_year + ".<br><br>"
+        layer.bindPopup("<b>" + feature.properties.name + " (Continent: " + feature.properties.continent + ") </b>" + "<br><br> The GDP for this country was " + feature.properties.gdp_md.toLocaleString() + " million USD as of " + feature.properties.gdp_year + ".<br><br>"
         + feature.properties.name + " had a population of " + feature.properties.pop_est.toLocaleString() + " as of " + feature.properties.pop_year + ".");
       });
     }
@@ -80,7 +80,7 @@ fetch('custom.geo.json')
       onEachFeature: onEachFeature,
       style: function(feature) {
         console.log(-Math.log(uniqueNames.indexOf(feature.properties.name) + 1) * 17)
-        return {color: "#000000", weight: 0.2, fillOpacity: 0.6, fillColor: shadeColor("#00ff00", -Math.log(uniqueNames.indexOf(feature.properties.name) + 1) * 19)}
+        return {color: "#000000", weight: 0.2, fillOpacity: 0.7, fillColor: shadeColor("#9F2B68", -Math.log(uniqueNames.indexOf(feature.properties.name) + 1) * 19)}
       }
     }).addTo(map);
   })

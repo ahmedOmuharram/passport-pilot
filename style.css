@@ -123,3 +123,7 @@ input[type=checkbox] {
 #map { 
   height: 100vh; 
 }
+
+.leaflet-tile {
+  filter: blur(100px) hue-rotate(90deg) !important;
+}
