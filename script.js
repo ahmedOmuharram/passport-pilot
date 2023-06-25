@@ -65,23 +65,44 @@ fetch('custom.geo.json')
       }
     }
 
-    console.log(uniqueNames)
     sortJsonDataByProperty("gdp_md")
     
     function onEachFeature(feature, layer) {
       layer.on('click', function (e) {
-        layer.bindPopup("<b>" + feature.properties.name + " (Continent: " + feature.properties.continent + ") </b>" + "<br><br> The GDP for this country was " + Math.floor(feature.properties.gdp_md/1000).toLocaleString() + " million USD as of " + feature.properties.gdp_year + ".<br><br>"
+        layer.bindPopup("<b>" + feature.properties.name + " (Continent: " + feature.properties.continent + ") </b>" + "<br><br> The GDP for this country was " + Math.floor(feature.properties.gdp_md/1000).toLocaleString() + " billion USD as of " + feature.properties.gdp_year + ".<br><br>"
         + feature.properties.name + " had a population of " + feature.properties.pop_est.toLocaleString() + " as of " + feature.properties.pop_year + ".");
+        if (!this.isPopupOpen()) {
+          this.setStyle({
+            'fillColor': '#ffff00'
+          });
+        }
+      });
+      layer.on('mouseover', function () {
+        if (!this.isPopupOpen()) {
+          this.setStyle({
+            'fillColor': '#0000ff'
+          });
+        }
+      });
+      layer.on('mouseout', function () {
+        console.log(this.isPopupOpen())
+        if (!this.isPopupOpen()) {
+          this.setStyle({
+            'fillColor': '#ff0000'
+          });
+        }
+      });
+      layer.on('popupclose', function () {
+        this.setStyle({
+          'fillColor': '#ff0000'
+        });
       });
     }
-    
-    console.log(uniqueNames)
-    
+       
     geojson = L.geoJson(jsonData, {
       onEachFeature: onEachFeature,
       style: function(feature) {
-        console.log(-Math.log(uniqueNames.indexOf(feature.properties.name) + 1) * 17)
-        return {color: "#000000", weight: 0.2, fillOpacity: 0.7, fillColor: shadeColor("#9F2B68", -Math.log(uniqueNames.indexOf(feature.properties.name) + 1) * 19)}
+        return {color: "#000000", weight: 0.2, fillOpacity: 0.7, fillColor: "#FF0000"}//shadeColor("#9F2B68", -Math.log(uniqueNames.indexOf(feature.properties.name) + 1) * 19)}
       }
     }).addTo(map);
   })
@@ -111,5 +132,36 @@ anchor.addEventListener('click', function(e) {
   }
 });
 
+// Function to convert CSV to JSON with required mapping
+async function convertCSVtoJSON() {
+  var response = await fetch('passport-data.csv');
+  var csvData = await response.text();
+  var jsonPassportData = Papa.parse(csvData, { header: false, delimiter: ',' }).data;
+  var result = {};
 
+  jsonPassportData.forEach(function (row) {
+    var fromCountry = row[0]; 
+    var toCountry = row[1];
+    var visaType = row[2]; 
 
+    if (!result[fromCountry]) {
+      result[fromCountry] = [];
+    }
+
+    result[fromCountry].push({ toCountry: toCountry, visaType: visaType });
+  });
+
+  return result;
+}
+
+var jsonOutputData = [];
+
+// Convert CSV to JSON
+convertCSVtoJSON()
+  .then(function (jsonPassportData) {
+    jsonOutputData = jsonPassportData;
+    console.log(jsonOutputData["Egypt"])
+  })
+  .catch(function (error) {
+    console.error(error);
+  });

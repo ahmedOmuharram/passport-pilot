@@ -144,10 +144,9 @@ input[type=checkbox] {
   height: 100%; 
 }
 
-
-.leaflet-tile {
+/*.leaflet-tile {
   filter: blur(100px) hue-rotate(90deg) !important;
-}
+}*/
 
 #info {
   border-radius: 12px;
