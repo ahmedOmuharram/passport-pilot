@@ -143,16 +143,23 @@ fetch('custom.geo.json')
 
         var i = 0;
         map.eachLayer( function(layer) {
+          let visaType;
+          let countryInfo;
           if (layer.feature) {
-            let countryInfo = jsonOutputData[featureExternal.properties.iso_a2].find(item => item.toCountry === layer.feature.properties.iso_a2)
-            let visaType;
+            if (jsonOutputData[featureExternal.properties.iso_a2_eh]) {
+              countryInfo = jsonOutputData[featureExternal.properties.iso_a2_eh].find(item => item.toCountry === layer.feature.properties.iso_a2_eh)
+            }
             if (!countryInfo) {
               visaType = "Unknown"
             } else {
               visaType = countryInfo.visaType;
             }
-            console.log(visaType)
             switch (visaType) {
+              case 'Unknown':
+                layer.setStyle({
+                  'fillColor': '#000000'
+                });
+                break;
               case 'visa required':
                 layer.setStyle({
                   'fillColor': '#ff0000'
@@ -175,7 +182,7 @@ fetch('custom.geo.json')
                 break;
               case 'no admission':
                 layer.setStyle({
-                  'fillColor': '#000000'
+                  'fillColor': '#ffe02e'
                 });
                 break;
               default:
@@ -191,7 +198,7 @@ fetch('custom.geo.json')
                   break;
                 } else {
                   layer.setStyle({
-                    'fillOpacity': 0
+                    'fillColor': '#000000'
                   });
                 }
             }
@@ -258,7 +265,7 @@ anchor.addEventListener('click', function(e) {
 
 // Function to convert CSV to JSON with required mapping
 async function convertCSVtoJSON() {
-  var response = await fetch('passport-data-2.csv');
+  var response = await fetch('passport-data-3.csv');
   var csvData = await response.text();
   var jsonPassportData = Papa.parse(csvData, { header: false, delimiter: ',' }).data;
   var result = {};
