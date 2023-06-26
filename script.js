@@ -50,6 +50,7 @@ fetch('custom.geo.json')
     var jsonData = Array.isArray(data) ? data : [data];
 
     var uniqueNames = [];
+    
     // Call a function or perform operations on the jsonData here
     // to ensure it is accessed only after it is available
     function sortJsonDataByProperty(propertyName) {
@@ -70,9 +71,68 @@ fetch('custom.geo.json')
       }
     }
 
-    sortJsonDataByProperty("gdp_md")
+
+    [...document.getElementsByTagName("a")].forEach(function(item) {
+      // adding eventListener to the elements
+      item.addEventListener('click', function() {
+        // calling the methods
+        // this.id will be the id of the clicked button
+        // there is a method in the object by same name, which will be trigger
+        obj[this.id]();
+      })
+    })
+
+    geojson = L.geoJson(jsonData, {
+      onEachFeatureSort: onEachFeatureSort,
+      style: function(feature) {
+        var fillColorFeature = shadeColor("#9F2B68", -Math.log(uniqueNames.indexOf(feature.properties.name) + 1) * 19)
+        return {color: "#000000", weight: 0.2, fillOpacity: 0.7, fillColor: fillColorFeature}
+      }
+    }).addTo(map);
+    
+    var obj = {
+      gdp: function() {
+        uniqueNames = []
+        geojson.remove()
+        sortJsonDataByProperty("gdp_md")
+        geojson = L.geoJson(jsonData, {
+          onEachFeature: onEachFeatureSort,
+          style: function(feature) {
+            var fillColorFeature = shadeColor("#9F2B68", -Math.log(uniqueNames.indexOf(feature.properties.name) + 1) * 19)
+            return {color: "#000000", weight: 0.2, fillOpacity: 0.7, fillColor: fillColorFeature}
+          }
+        }).addTo(map);
+        console.log(uniqueNames)
+      },
+      pop: function() {
+        uniqueNames = []
+        geojson.remove()
+        sortJsonDataByProperty("pop_est")
+        geojson = L.geoJson(jsonData, {
+          onEachFeature: onEachFeatureSort,
+          style: function(feature) {
+            var fillColorFeature = shadeColor("#9F2B68", -Math.log(uniqueNames.indexOf(feature.properties.name) + 1) * 19)
+            return {color: "#000000", weight: 0.2, fillOpacity: 0.7, fillColor: fillColorFeature}
+          }
+        }).addTo(map);
+        console.log(uniqueNames)
+      },
+      visa: function() {
+        uniqueNames = []
+        geojson.remove()
+        geojson = L.geoJson(jsonData, {
+          onEachFeature: onEachFeature,
+          style: function(feature) {
+            return {color: "#000000", weight: 0.2, fillOpacity: 0.7, fillColor: "#8A6CC6"}
+          }
+        }).addTo(map);
+        console.log(uniqueNames)
+      },
+    }
+
     
     function onEachFeature(feature, layer) {
+  
       layer.bindPopup("<b>" + feature.properties.name + " (Continent: " + feature.properties.continent + ") </b>" + "<br><br> The GDP for this country was around " + feature.properties.gdp_md.toLocaleString() + ",000,000 USD as of " + feature.properties.gdp_year + ".<br><br>"
       + feature.properties.name + " had a population of " + feature.properties.pop_est.toLocaleString() + " as of " + feature.properties.pop_year + ".");
       layer.on('click', function (e) {
@@ -103,13 +163,12 @@ fetch('custom.geo.json')
         });
       });
     }
-       
-    geojson = L.geoJson(jsonData, {
-      onEachFeature: onEachFeature,
-      style: function(feature) {
-        return {color: "#000000", weight: 0.2, fillOpacity: 0.7, fillColor: "#8A6CC6"}//shadeColor("#9F2B68", -Math.log(uniqueNames.indexOf(feature.properties.name) + 1) * 19)}
-      }
-    }).addTo(map);
+
+    function onEachFeatureSort(feature, layer) {
+      layer.bindPopup("<b>" + feature.properties.name + " (Continent: " + feature.properties.continent + ") </b>" + "<br><br> The GDP for this country was around " + feature.properties.gdp_md.toLocaleString() + ",000,000 USD as of " + feature.properties.gdp_year + ".<br><br>"
+      + feature.properties.name + " had a population of " + feature.properties.pop_est.toLocaleString() + " as of " + feature.properties.pop_year + ".");
+    }
+
   })
 
   .catch(error => {

@@ -57,14 +57,14 @@ li {
 
 /* LOGO */
 .logo {
-  font-size: 20px;
+  font-size: 2vw;
 }
 
 /* NAVBAR MENU */
 .menu {
   display: flex;
   gap: 1em;
-  font-size: 18px;
+  font-size: 1.4vw;
 }
 
 .menu li:hover {
@@ -106,6 +106,7 @@ input[type=checkbox] {
         position: absolute;
         right: 0;
         left: 0;
+        font-size: 12px;
         text-align: center;
     }
 
