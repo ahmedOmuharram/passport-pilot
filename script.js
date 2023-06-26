@@ -83,13 +83,12 @@ fetch('custom.geo.json')
     })
 
     geojson = L.geoJson(jsonData, {
-      onEachFeatureSort: onEachFeatureSort,
+      onEachFeature: onEachFeature,
       style: function(feature) {
-        var fillColorFeature = shadeColor("#9F2B68", -Math.log(uniqueNames.indexOf(feature.properties.name) + 1) * 19)
-        return {color: "#000000", weight: 0.2, fillOpacity: 0.7, fillColor: fillColorFeature}
+        return {color: "#000000", weight: 0.2, fillOpacity: 0.7, fillColor: "#8A6CC6"}
       }
     }).addTo(map);
-    
+
     var obj = {
       gdp: function() {
         uniqueNames = []
@@ -131,18 +130,79 @@ fetch('custom.geo.json')
     }
 
     
-    function onEachFeature(feature, layer) {
+    function onEachFeature(featureExternal, layer) {
   
-      layer.bindPopup("<b>" + feature.properties.name + " (Continent: " + feature.properties.continent + ") </b>" + "<br><br> The GDP for this country was around " + feature.properties.gdp_md.toLocaleString() + ",000,000 USD as of " + feature.properties.gdp_year + ".<br><br>"
-      + feature.properties.name + " had a population of " + feature.properties.pop_est.toLocaleString() + " as of " + feature.properties.pop_year + ".");
-      layer.on('click', function (e) {
+      layer.bindPopup("<b>" + featureExternal.properties.name + " (Continent: " + featureExternal.properties.continent + ") </b>" + "<br><br> The GDP for this country was around " + featureExternal.properties.gdp_md.toLocaleString() + ",000,000 USD as of " + featureExternal.properties.gdp_year + ".<br><br>"
+      + featureExternal.properties.name + " had a population of " + featureExternal.properties.pop_est.toLocaleString() + " as of " + featureExternal.properties.pop_year + ".");
+      layer.on('click', function () {
         if (this.isPopupOpen()) {
           this.setStyle({
             'fillColor': '#7A2048'
           });
         }
+
+        var i = 0;
+        map.eachLayer( function(layer) {
+          if (layer.feature) {
+            let countryInfo = jsonOutputData[featureExternal.properties.iso_a2].find(item => item.toCountry === layer.feature.properties.iso_a2)
+            let visaType;
+            if (!countryInfo) {
+              visaType = "Unknown"
+            } else {
+              visaType = countryInfo.visaType;
+            }
+            console.log(visaType)
+            switch (visaType) {
+              case 'visa required':
+                layer.setStyle({
+                  'fillColor': '#ff0000'
+                });
+                break;
+              case 'e-visa':
+                layer.setStyle({
+                  'fillColor': '#0000ff'
+                });
+                break;
+              case 'visa on arrival':
+                layer.setStyle({
+                  'fillColor': '#ff0000'
+                });
+                break;
+              case 'visa free':
+                layer.setStyle({
+                  'fillColor': '#00ff00'
+                });
+                break;
+              case 'no admission':
+                layer.setStyle({
+                  'fillColor': '#000000'
+                });
+                break;
+              default:
+                if (visaType == -1) {
+                  layer.setStyle({
+                    'fillColor': '#ffff00'
+                  });
+                  break;
+                } else if (7 <= visaType <= 360) {
+                  layer.setStyle({
+                    'fillColor': '#ffffff'
+                  });
+                  break;
+                } else {
+                  layer.setStyle({
+                    'fillOpacity': 0
+                  });
+                }
+            }
+            //console.log(layer.feature.properties.name)         
+          }
+          i += 1;
+          //console.log(i)
+        });
+
       });
-      layer.on('mouseover', function () {
+      /*layer.on('mouseover', function () {
         if (!this.isPopupOpen()) {
           this.setStyle({
             'fillColor': '#3D4AC2'
@@ -161,7 +221,7 @@ fetch('custom.geo.json')
         this.setStyle({
           'fillColor': '#8A6CC6'
         });
-      });
+      });*/
     }
 
     function onEachFeatureSort(feature, layer) {
@@ -198,7 +258,7 @@ anchor.addEventListener('click', function(e) {
 
 // Function to convert CSV to JSON with required mapping
 async function convertCSVtoJSON() {
-  var response = await fetch('passport-data.csv');
+  var response = await fetch('passport-data-2.csv');
   var csvData = await response.text();
   var jsonPassportData = Papa.parse(csvData, { header: false, delimiter: ',' }).data;
   var result = {};
@@ -224,7 +284,7 @@ var jsonOutputData = [];
 convertCSVtoJSON()
   .then(function (jsonPassportData) {
     jsonOutputData = jsonPassportData;
-    console.log(jsonOutputData["Egypt"])
+    console.log(jsonOutputData["EG"])
   })
   .catch(function (error) {
     console.error(error);
