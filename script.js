@@ -78,14 +78,14 @@ fetch('custom.geo.json')
       layer.on('click', function (e) {
         if (this.isPopupOpen()) {
           this.setStyle({
-            'fillColor': '#ffff00'
+            'fillColor': '#7BC66C'
           });
         }
       });
       layer.on('mouseover', function () {
         if (!this.isPopupOpen()) {
           this.setStyle({
-            'fillColor': '#0000ff'
+            'fillColor': '#7A2048'
           });
         }
       });
@@ -93,13 +93,13 @@ fetch('custom.geo.json')
         console.log(this.isPopupOpen())
         if (!this.isPopupOpen()) {
           this.setStyle({
-            'fillColor': '#ff0000'
+            'fillColor': '#8A6CC6'
           });
         }
       });
       layer.on('popupclose', function () {
         this.setStyle({
-          'fillColor': '#ff0000'
+          'fillColor': '#8A6CC6'
         });
       });
     }
@@ -107,7 +107,7 @@ fetch('custom.geo.json')
     geojson = L.geoJson(jsonData, {
       onEachFeature: onEachFeature,
       style: function(feature) {
-        return {color: "#000000", weight: 0.2, fillOpacity: 0.7, fillColor: "#FF0000"}//shadeColor("#9F2B68", -Math.log(uniqueNames.indexOf(feature.properties.name) + 1) * 19)}
+        return {color: "#000000", weight: 0.2, fillOpacity: 0.7, fillColor: "#8A6CC6"}//shadeColor("#9F2B68", -Math.log(uniqueNames.indexOf(feature.properties.name) + 1) * 19)}
       }
     }).addTo(map);
   })
