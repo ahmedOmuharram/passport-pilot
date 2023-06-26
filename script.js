@@ -7,7 +7,7 @@ var map = L.map('map', {
   [90,-180],
   [-90, 180]
 ])
-
+/*
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   noWrap: true,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -15,7 +15,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       [-90, -180],
       [90, 180]
     ]
-}).addTo(map);
+}).addTo(map);*/
 
 function shadeColor(color, percent) {
     
@@ -78,14 +78,14 @@ fetch('custom.geo.json')
       layer.on('click', function (e) {
         if (this.isPopupOpen()) {
           this.setStyle({
-            'fillColor': '#7BC66C'
+            'fillColor': '#7A2048'
           });
         }
       });
       layer.on('mouseover', function () {
         if (!this.isPopupOpen()) {
           this.setStyle({
-            'fillColor': '#7A2048'
+            'fillColor': '#3D4AC2'
           });
         }
       });
