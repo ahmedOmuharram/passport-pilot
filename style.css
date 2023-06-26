@@ -23,7 +23,6 @@
 }
 
 body {
-  overflow: hidden;
   background-color: #FBEAEB;
   font-family: 'Nunito', sans-serif;
   height: 100vh;
@@ -41,6 +40,7 @@ li {
 /* NAVBAR STYLING STARTS */
 .navbar {
   display: flex;
+  top: 0;
   align-items: center;
   justify-content: space-between;
   padding: 20px;
@@ -49,7 +49,6 @@ li {
   -moz-box-shadow:0 5px 5px rgba(182, 182, 182, 0.75);
   -webkit-box-shadow: 0 5px 5px rgba(182, 182, 182, 0.75);
   box-shadow: 0 5px 5px rgba(182, 182, 182, 0.75);
-  z-index: 99999;
 }
 
 .nav-links a {
@@ -94,9 +93,7 @@ input[type=checkbox] {
   
   /* APPLYING MEDIA QUERIES */
 @media (max-width: 768px) {
-    .navbar {
-        padding: 0;
-    }
+    
 
     .logo {
         margin: 0;
@@ -141,7 +138,7 @@ input[type=checkbox] {
 }
 
 #map { 
-  height: 100%; 
+  height: calc(100vh - 74.5px);
 }
 
 /*.leaflet-tile {
@@ -160,7 +157,6 @@ input[type=checkbox] {
   border: 1px solid #666;
   background-color: rgba(0, 0, 0, 0.8);
   position: fixed;
-  z-index: 99999;
   padding: 3vmax;
   color: white;
   display: flex;

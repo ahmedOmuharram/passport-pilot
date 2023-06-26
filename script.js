@@ -69,7 +69,7 @@ fetch('custom.geo.json')
     
     function onEachFeature(feature, layer) {
       layer.on('click', function (e) {
-        layer.bindPopup("<b>" + feature.properties.name + " (Continent: " + feature.properties.continent + ") </b>" + "<br><br> The GDP for this country was " + Math.floor(feature.properties.gdp_md/1000).toLocaleString() + " billion USD as of " + feature.properties.gdp_year + ".<br><br>"
+        layer.bindPopup("<b>" + feature.properties.name + " (Continent: " + feature.properties.continent + ") </b>" + "<br><br> The GDP for this country was around " + feature.properties.gdp_md.toLocaleString() + ",000,000 USD as of " + feature.properties.gdp_year + ".<br><br>"
         + feature.properties.name + " had a population of " + feature.properties.pop_est.toLocaleString() + " as of " + feature.properties.pop_year + ".");
         if (!this.isPopupOpen()) {
           this.setStyle({
