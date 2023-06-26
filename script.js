@@ -1,15 +1,20 @@
 
 var map = L.map('map', {
-  minZoom: 2,
+  minZoom: 1,
   maxZoom: 19,
   zoomControl: false,
-}).setView([35, 0], 2).setMaxBounds([
+}).setView([35, 0], 1.5).setMaxBounds([
   [90,-180],
   [-90, 180]
 ])
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  noWrap: true,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    bounds: [
+      [-90, -180],
+      [90, 180]
+    ]
 }).addTo(map);
 
 function shadeColor(color, percent) {
