@@ -157,47 +157,56 @@ fetch('custom.geo.json')
             switch (visaType) {
               case 'Unknown':
                 layer.setStyle({
-                  'fillColor': '#000000'
+                  // white
+                  'fillColor': '#ffffff'
                 });
                 break;
               case 'visa required':
                 layer.setStyle({
-                  'fillColor': '#ff0000'
+                  // orange
+                  'fillColor': '#ffdfba'
                 });
                 break;
               case 'e-visa':
                 layer.setStyle({
-                  'fillColor': '#0000ff'
+                  // blue
+                  'fillColor': '#bae1ff'
                 });
                 break;
               case 'visa on arrival':
                 layer.setStyle({
-                  'fillColor': '#ff0000'
+                  // brown
+                  'fillColor': '#836953'
                 });
                 break;
               case 'visa free':
                 layer.setStyle({
-                  'fillColor': '#00ff00'
+                  // green
+                  'fillColor': '#baffc9'
                 });
                 break;
               case 'no admission':
                 layer.setStyle({
-                  'fillColor': '#ffe02e'
+                  // red
+                  'fillColor': '#ffb3ba'
                 });
                 break;
               default:
                 if (visaType == -1) {
                   layer.setStyle({
-                    'fillColor': '#ffff00'
+                    // yellow
+                    'fillColor': '#ffffba'
                   });
                   break;
                 } else if (7 <= visaType <= 360) {
                   layer.setStyle({
-                    'fillColor': '#ffffff'
+                    // pink
+                    'fillColor': '#D198B7'
                   });
                   break;
                 } else {
                   layer.setStyle({
+                    // black
                     'fillColor': '#000000'
                   });
                 }
