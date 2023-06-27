@@ -2,7 +2,7 @@
 var map = L.map('map', {
   minZoom: 1,
   maxZoom: 19,
-  zoomControl: false,
+  attributionControl: false,
 }).setView([35, 0], 1.5).setMaxBounds([
   [90,-180],
   [-90, 180]
@@ -218,7 +218,14 @@ fetch('custom.geo.json')
         });
 
       });
-      /*layer.on('mouseover', function () {
+      /*
+        layer.on('click', function () {
+        if (this.isPopupOpen()) {
+          this.setStyle({
+            'fillColor': '#7A2048'
+          });
+        }
+      layer.on('mouseover', function () {
         if (!this.isPopupOpen()) {
           this.setStyle({
             'fillColor': '#3D4AC2'
@@ -306,37 +313,20 @@ convertCSVtoJSON()
     console.error(error);
   });
 
-  var legend = L.control({position: 'bottomleft'});
-
-  function randomIntFromInterval(min, max) { // min and max included 
-    return Math.floor(Math.random() * (max - min + 1) + min)
-  }
-  
-  
-  function getColor(d) {
-    d = randomIntFromInterval(1, 1200)
-    return d > 1000 ? '#800026' :
-           d > 500  ? '#BD0026' :
-           d > 200  ? '#E31A1C' :
-           d > 100  ? '#FC4E2A' :
-           d > 50   ? '#FD8D3C' :
-           d > 20   ? '#FEB24C' :
-           d > 10   ? '#FED976' :
-                      '#FFEDA0';
-}
+  var legend = L.control({position: 'bottomright'});
 
   legend.onAdd = function (map) {
   
       var div = L.DomUtil.create('div', 'info legend'),
           labels = [];
 
+      div.innerHTML += '<i style="background: #baffc9; border: 1px solid black"></i> ' + ' Visa-Free <br>';
       div.innerHTML += '<i style="background: #ffdfba; border: 1px solid black"></i> ' + ' Visa Required <br>';
       div.innerHTML += '<i style="background: #bae1ff; border: 1px solid black"></i> ' + ' E-Visa <br>';
       div.innerHTML += '<i style="background: #836953; border: 1px solid black"></i> ' + ' Visa on Arrival <br>';
-      div.innerHTML += '<i style="background: #baffc9; border: 1px solid black"></i> ' + ' Visa-Free <br>';
-      div.innerHTML += '<i style="background: #ffb3ba; border: 1px solid black"></i> ' + ' No Admission <br>';
-      div.innerHTML += '<i style="background: #ffffba; border: 1px solid black"></i> ' + ' Selected Country <br>';
       div.innerHTML += '<i style="background: #D198B7; border: 1px solid black"></i> ' + ' 7-360 Visa-Free days <br>';
+      div.innerHTML += '<i style="background: #ffffba; border: 1px solid black"></i> ' + ' Selected Country <br>';
+      div.innerHTML += '<i style="background: #ffb3ba; border: 1px solid black"></i> ' + ' No Admission <br>'; 
       div.innerHTML += '<i style="background: #000000; border: 1px solid black"></i> ' + ' Other/COVID-ban <br>';
       div.innerHTML += '<i style="background: #ffffff; border: 1px solid black"></i> ' + ' Unknown <br>';
       
